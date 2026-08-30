@@ -1,0 +1,13 @@
+Binaries/
+DerivedDataCache/
+Intermediate/
+Saved/
+Build/
+.vs/
+.idea/
+*.sln
+*.slnx
+*.suo
+*.xcodeproj/
+*.xcworkspace/
+*.vsconfig

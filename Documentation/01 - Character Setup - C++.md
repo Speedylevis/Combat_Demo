@@ -29,6 +29,8 @@ A capsule has its origin at the center of the capsule, whereas a mesh of a chara
 
 Unreal Engine considers the +X as the forward direction, whereas outside modeling software (e.g. Blender) might export with +Y as the forward direction. This causes the skeletal mesh's forward (imported from an outside software) to be offset by 90 degrees from the capsule's forward (from Unreal Engine). Offsetting the yaw of the local rotation of the mesh by 90 degrees aligns the forward of the mesh and the capsule. In Unreal, the yaw relates to rotation around the Z-up axis.
 
+The skeletal mesh used is set on the Blueprint in the editor. It is a data asset, which would require hardcoding a path if implemented using C++. Data assets are better managed through the editor. For now, the skeleton `SK_Mannequin` and the skeletal mesh `SK_Manny_Simple` from the UE5 mannequin are used. They can be migrated from the third-person template project.
+
 ## Spring Arm Component
 
 The `USpringArmComponent` maintains its children components at a fixed distance (`TargetArmLength`) from the its parent component. In this case, it is used to hold the camera behind the character. If the spring arm collides with something (like a wall), it will retract and prevent the camera from clipping.

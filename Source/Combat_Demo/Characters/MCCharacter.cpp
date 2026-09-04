@@ -31,7 +31,7 @@ AMCCharacter::AMCCharacter()
 	Move->bOrientRotationToMovement = true;
 	Move->RotationRate = FRotator(0.0f, 500.0f, 0.0f);
 	Move->JumpZVelocity = 500.0f;
-	Move->MaxWalkSpeed = 500.0f;
+	Move->MaxWalkSpeed = WalkSpeed;
 	JumpMaxHoldTime = 0.5f;
 	
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
@@ -54,8 +54,13 @@ void AMCCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	
 	EIC->BindAction(JumpAction, ETriggerEvent::Started, this, &ACharacter::Jump);
 	EIC->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
+	
 	EIC->BindAction(MoveAction, ETriggerEvent::Triggered, this , &AMCCharacter::Move);
 	EIC->BindAction(LookAction, ETriggerEvent::Triggered, this , &AMCCharacter::Look);
+	
+	EIC->BindAction(SprintAction, ETriggerEvent::Started, this , &AMCCharacter::StartSprint);
+	EIC->BindAction(SprintAction, ETriggerEvent::Completed, this , &AMCCharacter::StopSprint);
+	EIC->BindAction(SprintAction, ETriggerEvent::Canceled, this, &AMCCharacter::StopSprint);
 }
 
 void AMCCharacter::NotifyControllerChanged()
@@ -95,4 +100,14 @@ void AMCCharacter::Look(const FInputActionValue& Value)
 	
 	AddControllerYawInput(Input.X * LookSensitivity);
 	AddControllerPitchInput(Input.Y * LookSensitivity);
+}
+
+void AMCCharacter::StartSprint()
+{
+	GetCharacterMovement()->MaxWalkSpeed = SprintSpeed;
+}
+
+void AMCCharacter::StopSprint()
+{
+	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 }
